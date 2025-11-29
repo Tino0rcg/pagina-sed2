@@ -19,7 +19,7 @@ export async function sendMessageToGemini(
 ): Promise<string> {
   try {
     const genAI = new GoogleGenerativeAI(getApiKey());
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
 
     const history = conversationHistory
       .filter(msg => msg.role !== 'assistant' || msg !== conversationHistory[0])
