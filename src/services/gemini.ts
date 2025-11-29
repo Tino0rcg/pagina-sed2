@@ -18,8 +18,11 @@ export async function sendMessageToGemini(
   conversationHistory: Message[]
 ): Promise<string> {
   try {
-    const genAI = new GoogleGenerativeAI(getApiKey());
-    const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+    const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+    console.log('API Key configurada:', !!apiKey);
+
+    const genAI = new GoogleGenerativeAI(apiKey);
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
     const history = conversationHistory
       .filter(msg => msg.role !== 'assistant' || msg !== conversationHistory[0])
@@ -45,6 +48,9 @@ export async function sendMessageToGemini(
     return response.text();
   } catch (error) {
     console.error('Error al comunicarse con Gemini:', error);
+    if (error instanceof Error) {
+      console.error('Detalles del error:', error.message);
+    }
     throw error;
   }
 }
